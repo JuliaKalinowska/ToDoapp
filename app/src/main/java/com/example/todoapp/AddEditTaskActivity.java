@@ -12,7 +12,10 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
-public class AddTaskActivity extends AppCompatActivity {
+public class AddEditTaskActivity extends AppCompatActivity {
+
+    public static final String EXTRA_ID =
+            "com.example.todoapp.EXTRA_ID";
 
     public static final String EXTRA_TITLE =
             "com.example.todoapp.EXTRA_TITLE";
@@ -40,7 +43,18 @@ public class AddTaskActivity extends AppCompatActivity {
         numberPickerPriority.setMaxValue(3);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
-        setTitle("Dodaj zadanie");
+
+        Intent intent = getIntent();
+
+        if (intent.hasExtra(EXTRA_ID)) {
+            setTitle("Edytuj zadanie");
+            editTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            editTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
+            numberPickerPriority.setValue(intent.getIntExtra(EXTRA_PRIORITY, 1));
+        } else {
+
+            setTitle("Dodaj zadanie");
+        }
     }
 
     private void saveTask()
@@ -49,9 +63,9 @@ public class AddTaskActivity extends AppCompatActivity {
         String description = editTextDescription.getText().toString();
         int priority = numberPickerPriority.getValue();
 
-        if (title.trim().isEmpty() || description.trim().isEmpty())
+        if (title.trim().isEmpty())
         {
-            Toast.makeText(this, "Proszę wprowadzić tytuł i opis zadania", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Proszę wprowadzić tytuł zadania", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -59,6 +73,12 @@ public class AddTaskActivity extends AppCompatActivity {
         data.putExtra(EXTRA_TITLE, title);
         data.putExtra(EXTRA_DESCRIPTION, description);
         data.putExtra(EXTRA_PRIORITY, priority);
+
+        int id = getIntent().getIntExtra(EXTRA_ID,-1);
+        if(id != -1 )
+        {
+            data.putExtra(EXTRA_ID, id);
+        }
 
         setResult(RESULT_OK, data);
         finish();
