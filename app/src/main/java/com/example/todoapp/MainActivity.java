@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MenuItem search = findViewById(R.id.search_bar);
+
+
         FloatingActionButton buttonAddTask = findViewById(R.id.button_add_task);
         buttonAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
 
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu,menu);
+
+        Menu searchBar = findViewById(R.id.search_bar);
+
 
         return true;
     }

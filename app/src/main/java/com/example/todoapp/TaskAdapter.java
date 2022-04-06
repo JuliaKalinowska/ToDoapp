@@ -3,6 +3,8 @@ package com.example.todoapp;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,9 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> /*implements Filterable*/ {
 
     private List<Task> tasks = new ArrayList<>();
+    private List<Task> tasksFullList = new ArrayList<>(tasks); //
     private OnItemClickListener listener;
 
     @NonNull
@@ -42,6 +45,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     {
         this.tasks = tasks;
         notifyDataSetChanged();
+        tasksFullList = new ArrayList<>(tasks); //
     }
 
     public Task getTaskAt(int position)
@@ -84,4 +88,26 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     {
         this.listener = listener;
     }
+
+    /*@Override
+    public Filter getFilter() {
+        return taskFilter;
+    }
+
+    private Filter taskFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Task> filteredList = new ArrayList<>();
+
+            if (charSequence == null || charSequence.length() == 0)
+            {
+                filteredList.add(Task);
+            }
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
+        }
+    };*/
 }
