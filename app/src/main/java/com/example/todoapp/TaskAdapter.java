@@ -11,9 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> /*implements Filterable*/ {
+public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> implements Filterable {
 
     private List<Task> tasks = new ArrayList<>();
     private List<Task> tasksFullList = new ArrayList<>(tasks); //
@@ -45,13 +46,52 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> /*
     {
         this.tasks = tasks;
         notifyDataSetChanged();
-        tasksFullList = new ArrayList<>(tasks); //
+        this.tasksFullList = new ArrayList<>(tasks); //
     }
 
     public Task getTaskAt(int position)
     {
         return tasks.get(position);
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+
+            List<Task> filteredList = new ArrayList<>();
+
+            if (charSequence.toString().isEmpty())
+            {
+                filteredList.addAll(tasksFullList);
+            } else {
+                for (Task task: tasksFullList)
+                {
+                   if (task.getTitle().contains(charSequence.toString())){
+                       filteredList.add(task);
+                   }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+
+            tasks.clear();
+            tasks.addAll((Collection<? extends Task>) filterResults.values);
+            notifyDataSetChanged();
+
+        }
+    };
 
     class TaskHolder extends RecyclerView.ViewHolder
     {

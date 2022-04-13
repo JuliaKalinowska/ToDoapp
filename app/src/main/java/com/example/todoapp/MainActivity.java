@@ -3,6 +3,7 @@ package com.example.todoapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -28,14 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private TaskViewModel taskViewModel;
+    RecyclerView recyclerView;
+    final TaskAdapter adapter = new TaskAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        MenuItem search = findViewById(R.id.search_bar);
-
 
         FloatingActionButton buttonAddTask = findViewById(R.id.button_add_task);
         buttonAddTask.setOnClickListener(new View.OnClickListener() {
@@ -47,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
-        final TaskAdapter adapter = new TaskAdapter();
+        //final TaskAdapter adapter = new TaskAdapter();
         recyclerView.setAdapter(adapter);
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
@@ -139,11 +139,24 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu,menu);
 
-        Menu searchBar = findViewById(R.id.search_bar);
+        MenuItem search = menu.findItem(R.id.search_bar);
+        SearchView searchView = (SearchView) search.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -154,8 +167,19 @@ public class MainActivity extends AppCompatActivity {
                 taskViewModel.deleteAllTasks();
                 Toast.makeText(this, "Usunięto wszystkie zadania", Toast.LENGTH_SHORT).show();
                 return true;
+
+            case R.id.share:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                //taskViewModel.getAllTasks();
+                intent.putExtra(Intent.EXTRA_TEXT, "Udostępniono zadania: " + taskViewModel.getAllTasks());
+                startActivity(Intent.createChooser(intent, "Udostępnij"));
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+
+
     }
 }

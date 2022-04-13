@@ -48,7 +48,7 @@ public abstract class TaskDatabase extends RoomDatabase {
         protected Void doInBackground(Void... voids) {
             taskDao.insert(new Task("Nazwa 1", "Opis 1", 1));
             taskDao.insert(new Task("Nazwa 2", "Opis 2", 2));
-            taskDao.insert(new Task("Nazwa 3", "Opis 3", 3));
+            taskDao.insert(new Task("Nazwa 3", "Opis 3",3));
             return null;
         }
     }
