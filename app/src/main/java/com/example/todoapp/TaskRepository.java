@@ -1,6 +1,7 @@
 package com.example.todoapp;
 
 import android.app.Application;
+import android.hardware.camera2.params.LensShadingMap;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
@@ -12,11 +13,17 @@ public class TaskRepository {
     private TaskDao taskDao;
     private LiveData<List<Task>> allTasks;
 
+    private LiveData<List<Task>> allTasksByDESCName;
+    private LiveData<List<Task>> allTasksByASCName;
+
     public TaskRepository(Application application)
     {
         TaskDatabase database = TaskDatabase.getInstance(application);
         taskDao = database.taskDao();
         allTasks = taskDao.getAllTasks();
+
+        allTasksByDESCName = taskDao.getAllTasksByDESCName();
+        allTasksByASCName = taskDao.getAllTasksByASCName();
     }
 
     public void insert(Task task)
@@ -42,6 +49,10 @@ public class TaskRepository {
     public LiveData<List<Task>> getAllTasks(){
         return allTasks;
     }
+
+    //sort
+    public LiveData<List<Task>> getAllTasksByDESCName() {return allTasksByDESCName;}
+    public LiveData<List<Task>> getAllTasksByASCName() {return allTasksByASCName;}
 
     private static class InsertTaskAsyncTask extends AsyncTask<Task, Void, Void>
     {

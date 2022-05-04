@@ -176,6 +176,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(intent, "Udostępnij"));
                 return true;
 
+            case R.id.sort_by_name:
+                taskViewModel.getAllTasksByDESCName().observe(this, new Observer<List<Task>>() {
+                    @Override
+                    public void onChanged(List<Task> tasks) {
+                        adapter.setTasks(tasks);
+                    }
+                });
+
+                Toast.makeText(this,"Posortowano według nazwy malejąco", Toast.LENGTH_SHORT).show();
+                 return true;
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -12,12 +12,18 @@ public class TaskViewModel extends AndroidViewModel {
 
     private TaskRepository repository;
     private LiveData<List<Task>> allTasks;
-    //private LiveData<List<Task>> allTasksFull;
+
+    private LiveData<List<Task>> allTasksByDESCName;
+    private LiveData<List<Task>> allTasksByASCName;
+
 
     public TaskViewModel(@NonNull Application application) {
         super(application);
         repository = new TaskRepository(application);
         allTasks = repository.getAllTasks();
+
+        allTasksByDESCName = repository.getAllTasksByDESCName();
+        allTasksByASCName = repository.getAllTasksByASCName();
     }
 
     public void insert(Task task)
@@ -44,4 +50,8 @@ public class TaskViewModel extends AndroidViewModel {
     {
         return allTasks;
     }
+
+    public LiveData<List<Task>> getAllTasksByDESCName() {return allTasksByDESCName;}
+
+    public LiveData<List<Task>> getAllTasksByASCName() {return allTasksByASCName;}
 }

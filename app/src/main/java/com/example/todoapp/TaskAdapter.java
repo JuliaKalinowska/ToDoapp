@@ -129,25 +129,4 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         this.listener = listener;
     }
 
-    /*@Override
-    public Filter getFilter() {
-        return taskFilter;
-    }
-
-    private Filter taskFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            List<Task> filteredList = new ArrayList<>();
-
-            if (charSequence == null || charSequence.length() == 0)
-            {
-                filteredList.add(Task);
-            }
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-
-        }
-    };*/
 }
