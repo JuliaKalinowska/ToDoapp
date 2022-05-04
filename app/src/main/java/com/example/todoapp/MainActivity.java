@@ -187,6 +187,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this,"Posortowano według nazwy malejąco", Toast.LENGTH_SHORT).show();
                  return true;
 
+            case R.id.sort_by_priority:
+                taskViewModel.getAllTasksByASCPriority().observe(this, new Observer<List<Task>>() {
+                    @Override
+                    public void onChanged(List<Task> tasks) {
+                        adapter.setTasks(tasks);
+                    }
+                });
+                Toast.makeText(this,"Posortowano według priorytetu rosnąco", Toast.LENGTH_SHORT).show();
+                return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);

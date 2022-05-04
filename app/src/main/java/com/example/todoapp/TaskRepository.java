@@ -16,6 +16,8 @@ public class TaskRepository {
     private LiveData<List<Task>> allTasksByDESCName;
     private LiveData<List<Task>> allTasksByASCName;
 
+    private LiveData<List<Task>> allTasksByASCPriority;
+
     public TaskRepository(Application application)
     {
         TaskDatabase database = TaskDatabase.getInstance(application);
@@ -24,6 +26,8 @@ public class TaskRepository {
 
         allTasksByDESCName = taskDao.getAllTasksByDESCName();
         allTasksByASCName = taskDao.getAllTasksByASCName();
+
+        allTasksByASCPriority = taskDao.getAllTasksByASCPriority();
     }
 
     public void insert(Task task)
@@ -53,6 +57,8 @@ public class TaskRepository {
     //sort
     public LiveData<List<Task>> getAllTasksByDESCName() {return allTasksByDESCName;}
     public LiveData<List<Task>> getAllTasksByASCName() {return allTasksByASCName;}
+
+    public LiveData<List<Task>> getAllTasksByASCPriority() {return allTasksByASCPriority;}
 
     private static class InsertTaskAsyncTask extends AsyncTask<Task, Void, Void>
     {

@@ -36,6 +36,11 @@ public interface TaskDao {
     @Query("SELECT * FROM task_table ORDER BY title ASC")
     LiveData<List<Task>> getAllTasksByASCName();
 
+    //sortowanie według priorytetu
+
+    @Query("SELECT * FROM task_table ORDER BY priority ASC")
+    LiveData<List<Task>> getAllTasksByASCPriority();
+
 
 
 }

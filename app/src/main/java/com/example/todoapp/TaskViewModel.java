@@ -15,6 +15,7 @@ public class TaskViewModel extends AndroidViewModel {
 
     private LiveData<List<Task>> allTasksByDESCName;
     private LiveData<List<Task>> allTasksByASCName;
+    private LiveData<List<Task>> allTasksByASCPriority;
 
 
     public TaskViewModel(@NonNull Application application) {
@@ -24,6 +25,8 @@ public class TaskViewModel extends AndroidViewModel {
 
         allTasksByDESCName = repository.getAllTasksByDESCName();
         allTasksByASCName = repository.getAllTasksByASCName();
+
+        allTasksByASCPriority = repository.getAllTasksByASCPriority();
     }
 
     public void insert(Task task)
@@ -54,4 +57,6 @@ public class TaskViewModel extends AndroidViewModel {
     public LiveData<List<Task>> getAllTasksByDESCName() {return allTasksByDESCName;}
 
     public LiveData<List<Task>> getAllTasksByASCName() {return allTasksByASCName;}
+
+    public LiveData<List<Task>> getAllTasksByASCPriority() {return allTasksByASCPriority;}
 }
