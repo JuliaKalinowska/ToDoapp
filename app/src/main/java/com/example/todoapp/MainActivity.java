@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int ADD_TASK_REQUEST = 1;
     public static final int EDIT_TASK_REQUEST = 2;
 
-
+    private boolean checked = false;
     private TaskViewModel taskViewModel;
     RecyclerView recyclerView;
     final TaskAdapter adapter = new TaskAdapter();
@@ -86,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(AddEditTaskActivity.EXTRA_TITLE, task.getTitle());
                 intent.putExtra(AddEditTaskActivity.EXTRA_DESCRIPTION, task.getDescription());
                 intent.putExtra(AddEditTaskActivity.EXTRA_PRIORITY, task.getPriority());
+                intent.putExtra(AddEditTaskActivity.EXTRA_DONE, task.getDone());
+                intent.putExtra(AddEditTaskActivity.EXTRA_DATE, task.getDate());
 
                 startActivityForResult(intent, EDIT_TASK_REQUEST);
             }
@@ -102,8 +104,10 @@ public class MainActivity extends AppCompatActivity {
             String title = data.getStringExtra(AddEditTaskActivity.EXTRA_TITLE);
             String description = data.getStringExtra(AddEditTaskActivity.EXTRA_DESCRIPTION);
             int priority = data.getIntExtra(AddEditTaskActivity.EXTRA_PRIORITY, 1);
+            int done = data.getIntExtra(AddEditTaskActivity.EXTRA_DONE, 0);
+            String date = data.getStringExtra(AddEditTaskActivity.EXTRA_DATE);
 
-            Task task = new Task(title, description, priority);
+            Task task = new Task(title, description, priority, done, date);
             taskViewModel.insert(task);
 
             Toast.makeText(this, "Zapisano zadanie", Toast.LENGTH_SHORT).show();
@@ -120,8 +124,10 @@ public class MainActivity extends AppCompatActivity {
             String title = data.getStringExtra(AddEditTaskActivity.EXTRA_TITLE);
             String description = data.getStringExtra(AddEditTaskActivity.EXTRA_DESCRIPTION);
             int priority = data.getIntExtra(AddEditTaskActivity.EXTRA_PRIORITY, 1);
+            int done = data.getIntExtra(AddEditTaskActivity.EXTRA_DONE, 0);
+            String date = data.getStringExtra(AddEditTaskActivity.EXTRA_DATE);
 
-            Task task = new Task(title, description, priority);
+            Task task = new Task(title, description, priority, done, date);
             task.setId(id);
             taskViewModel.update(task);
 
@@ -168,6 +174,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Usunięto wszystkie zadania", Toast.LENGTH_SHORT).show();
                 return true;
 
+            case R.id.delete_all_done_tasks:
+                taskViewModel.deleteAllDoneTasks();
+                Toast.makeText(this, "Usunięto wszystkie ukończone zadania", Toast.LENGTH_SHORT).show();
+                return true;
+
             case R.id.share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
@@ -177,26 +188,86 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.sort_by_name:
-                taskViewModel.getAllTasksByDESCName().observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
-
-                Toast.makeText(this,"Posortowano według nazwy malejąco", Toast.LENGTH_SHORT).show();
-                 return true;
+                if (!checked) {
+                    taskViewModel.getAllTasksByASCName().observe(this, new Observer<List<Task>>() {
+                        @Override
+                        public void onChanged(List<Task> tasks) {
+                            adapter.setTasks(tasks);
+                        }
+                    });
+                }
+                else {
+                    taskViewModel.getAllNotDoneTasksByASCName().observe(this, new Observer<List<Task>>() {
+                        @Override
+                        public void onChanged(List<Task> tasks) {
+                            adapter.setTasks(tasks);
+                        }
+                    });
+                }
+                Toast.makeText(this,"Posortowano według nazwy rosnąco", Toast.LENGTH_SHORT).show();
+                return true;
 
             case R.id.sort_by_priority:
-                taskViewModel.getAllTasksByASCPriority().observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
+                if (!checked) {
+                    taskViewModel.getAllTasksByASCPriority().observe(this, new Observer<List<Task>>() {
+                        @Override
+                        public void onChanged(List<Task> tasks) {
+                            adapter.setTasks(tasks);
+                        }
+                    });
+                }
+                else {
+                    taskViewModel.getAllNotDoneTasksByASCPriority().observe(this, new Observer<List<Task>>() {
+                        @Override
+                        public void onChanged(List<Task> tasks) {
+                            adapter.setTasks(tasks);
+                        }
+                    });
+                }
                 Toast.makeText(this,"Posortowano według priorytetu rosnąco", Toast.LENGTH_SHORT).show();
                 return true;
 
+            case R.id.sort_by_date:
+                if (!checked) {
+                    taskViewModel.getAllTasksByASCDate().observe(this, new Observer<List<Task>>() {
+                        @Override
+                        public void onChanged(List<Task> tasks) {
+                            adapter.setTasks(tasks);
+                        }
+                    });
+                }
+                else {
+                    taskViewModel.getAllNotDoneTasksByASCDate().observe(this, new Observer<List<Task>>() {
+                        @Override
+                        public void onChanged(List<Task> tasks) {
+                            adapter.setTasks(tasks);
+                        }
+                    });
+                }
+                Toast.makeText(this,"Posortowano według daty rosnąco", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.hide_completed_task:
+                checked = !checked;
+                item.setChecked(checked);
+                if (!checked) {
+                    taskViewModel.getAllTasksByASCName().observe(this, new Observer<List<Task>>() {
+                        @Override
+                        public void onChanged(List<Task> tasks) {
+                            adapter.setTasks(tasks);
+                        }
+                    });
+                }
+                else {
+                    taskViewModel.getAllNotDoneTasksByASCName().observe(this, new Observer<List<Task>>() {
+                        @Override
+                        public void onChanged(List<Task> tasks) {
+                            adapter.setTasks(tasks);
+                        }
+                    });
+                }
+                Toast.makeText(this,"Posortowano według nazwy rosnąco", Toast.LENGTH_SHORT).show();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

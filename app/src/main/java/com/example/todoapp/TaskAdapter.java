@@ -34,6 +34,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         holder.textViewTitle.setText(currentTask.getTitle());
         holder.textViewDescription.setText(currentTask.getDescription());
         holder.textViewPriority.setText(String.valueOf(currentTask.getPriority()));
+        holder.textViewDate.setText(currentTask.getDate());
 
     }
 
@@ -71,9 +72,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
             } else {
                 for (Task task: tasksFullList)
                 {
-                   if (task.getTitle().contains(charSequence.toString())){
-                       filteredList.add(task);
-                   }
+                    if (task.getTitle().contains(charSequence.toString())){
+                        filteredList.add(task);
+                    }
                 }
             }
 
@@ -98,6 +99,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         private TextView textViewTitle;
         private TextView textViewDescription;
         private TextView textViewPriority;
+        private TextView textViewDate;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,6 +107,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
             textViewTitle = itemView.findViewById(R.id.text_view_title);
             textViewDescription = itemView.findViewById(R.id.text_view_description);
             textViewPriority = itemView.findViewById(R.id.text_view_priority);
+            textViewDate = itemView.findViewById(R.id.text_view_date);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

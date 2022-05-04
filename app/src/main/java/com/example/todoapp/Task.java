@@ -17,12 +17,17 @@ public class Task {
     private String description;
 
     private int priority;
-    // test
 
-    public Task(String title, String description, int priority) {
+    private int done;
+
+    private String date;
+
+    public Task(String title, String description, int priority, int done, String date) {
         this.title = title;
         this.description = description;
         this.priority = priority;
+        this.done = done;
+        this.date = date;
     }
 
     public void setId(int id) {
@@ -43,5 +48,13 @@ public class Task {
 
     public int getPriority() {
         return priority;
+    }
+
+    public int getDone() {
+        return done;
+    }
+
+    public String getDate() {
+        return date;
     }
 }

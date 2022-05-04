@@ -15,8 +15,17 @@ public class TaskRepository {
 
     private LiveData<List<Task>> allTasksByDESCName;
     private LiveData<List<Task>> allTasksByASCName;
-
+    private LiveData<List<Task>> allTasksByDESCPriority;
     private LiveData<List<Task>> allTasksByASCPriority;
+    private LiveData<List<Task>> allTasksByDESCDate;
+    private LiveData<List<Task>> allTasksByASCDate;
+
+    private LiveData<List<Task>> allNotDoneTasksByDESCName;
+    private LiveData<List<Task>> allNotDoneTasksByASCName;
+    private LiveData<List<Task>> allNotDoneTasksByDESCPriority;
+    private LiveData<List<Task>> allNotDoneTasksByASCPriority;
+    private LiveData<List<Task>> allNotDoneTasksByDESCDate;
+    private LiveData<List<Task>> allNotDoneTasksByASCDate;
 
     public TaskRepository(Application application)
     {
@@ -26,8 +35,17 @@ public class TaskRepository {
 
         allTasksByDESCName = taskDao.getAllTasksByDESCName();
         allTasksByASCName = taskDao.getAllTasksByASCName();
-
+        allTasksByDESCPriority = taskDao.getAllTasksByDESCPriority();
         allTasksByASCPriority = taskDao.getAllTasksByASCPriority();
+        allTasksByDESCDate = taskDao.getAllTasksByASCDate();
+        allTasksByASCDate = taskDao.getAllTasksByDESCDate();
+
+        allNotDoneTasksByDESCName = taskDao.getAllNotDoneTasksByDESCName();
+        allNotDoneTasksByASCName = taskDao.getAllNotDoneTasksByASCName();
+        allNotDoneTasksByDESCPriority = taskDao.getAllNotDoneTasksByDESCPriority();
+        allNotDoneTasksByASCPriority = taskDao.getAllNotDoneTasksByASCPriority();
+        allNotDoneTasksByDESCDate = taskDao.getAllNotDoneTasksByASCDate();
+        allNotDoneTasksByASCDate = taskDao.getAllNotDoneTasksByDESCDate();
     }
 
     public void insert(Task task)
@@ -50,6 +68,11 @@ public class TaskRepository {
         new DeleteAllTasksAsyncTask(taskDao).execute();
     }
 
+    public void deleteAllDoneTasks()
+    {
+        new DeleteAllDoneTasksAsyncTask(taskDao).execute();
+    }
+
     public LiveData<List<Task>> getAllTasks(){
         return allTasks;
     }
@@ -57,8 +80,17 @@ public class TaskRepository {
     //sort
     public LiveData<List<Task>> getAllTasksByDESCName() {return allTasksByDESCName;}
     public LiveData<List<Task>> getAllTasksByASCName() {return allTasksByASCName;}
-
+    public LiveData<List<Task>> getAllTasksByDESCPriority() {return allTasksByDESCPriority;}
     public LiveData<List<Task>> getAllTasksByASCPriority() {return allTasksByASCPriority;}
+    public LiveData<List<Task>> getAllTasksByDESCDate() {return allTasksByDESCDate;}
+    public LiveData<List<Task>> getAllTasksByASCDate() {return allTasksByASCDate;}
+
+    public LiveData<List<Task>> getAllNotDoneTasksByDESCName() {return allNotDoneTasksByDESCName;}
+    public LiveData<List<Task>> getAllNotDoneTasksByASCName() {return allNotDoneTasksByASCName;}
+    public LiveData<List<Task>> getAllNotDoneTasksByDESCPriority() {return allNotDoneTasksByDESCPriority;}
+    public LiveData<List<Task>> getAllNotDoneTasksByASCPriority() {return allNotDoneTasksByASCPriority;}
+    public LiveData<List<Task>> getAllNotDoneTasksByDESCDate() {return allNotDoneTasksByDESCDate;}
+    public LiveData<List<Task>> getAllNotDoneTasksByASCDate() {return allNotDoneTasksByASCDate;}
 
     private static class InsertTaskAsyncTask extends AsyncTask<Task, Void, Void>
     {
@@ -66,7 +98,7 @@ public class TaskRepository {
 
         private InsertTaskAsyncTask(TaskDao taskDao)
         {
-          this.taskDao = taskDao;
+            this.taskDao = taskDao;
         }
 
         @Override
@@ -120,6 +152,22 @@ public class TaskRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             taskDao.deleteAllTasks();
+            return null;
+        }
+    }
+
+    private static class DeleteAllDoneTasksAsyncTask extends AsyncTask<Void, Void, Void>
+    {
+        private TaskDao taskDao;
+
+        private DeleteAllDoneTasksAsyncTask(TaskDao taskDao)
+        {
+            this.taskDao = taskDao;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            taskDao.deleteAllDoneTasks();
             return null;
         }
     }
