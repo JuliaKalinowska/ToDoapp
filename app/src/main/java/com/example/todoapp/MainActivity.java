@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int ADD_TASK_REQUEST = 1;
     public static final int EDIT_TASK_REQUEST = 2;
-
     private boolean checked = false;
     private TaskViewModel taskViewModel;
     RecyclerView recyclerView;
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+
         taskViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
@@ -110,6 +110,23 @@ public class MainActivity extends AppCompatActivity {
             Task task = new Task(title, description, priority, done, date);
             taskViewModel.insert(task);
 
+            if (!checked) {
+                taskViewModel.getAllTasksByASCName().observe(this, new Observer<List<Task>>() {
+                    @Override
+                    public void onChanged(List<Task> tasks) {
+                        adapter.setTasks(tasks);
+                    }
+                });
+            }
+            else {
+                taskViewModel.getAllNotDoneTasksByASCName().observe(this, new Observer<List<Task>>() {
+                    @Override
+                    public void onChanged(List<Task> tasks) {
+                        adapter.setTasks(tasks);
+                    }
+                });
+            }
+
             Toast.makeText(this, "Zapisano zadanie", Toast.LENGTH_SHORT).show();
         } else if (requestCode == EDIT_TASK_REQUEST && resultCode == RESULT_OK)
         {
@@ -144,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
 
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu,menu);
+
+        //MenuItem hide = menu.findItem(R.id.hide_completed_task);
+        //hide.setChecked(checked);
 
         MenuItem search = menu.findItem(R.id.search_bar);
         SearchView searchView = (SearchView) search.getActionView();
