@@ -23,57 +23,57 @@ public interface TaskDao {
     @Delete
     void delete(Task task);
 
-    @Query("DELETE FROM task_table")
-    void deleteAllTasks();
+    @Query("DELETE FROM task_table WHERE listNumber = :listNumber")
+    void deleteAllTasks(int listNumber);
 
-    @Query("SELECT * FROM task_table ORDER BY priority DESC")
-    LiveData<List<Task>> getAllTasks();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY priority DESC")
+    LiveData<List<Task>> getAllTasks(int isDone, int listNumber);
 
     //usuwanie skonczonych taskow
 
-    @Query("DELETE FROM task_table WHERE done = 1")
-    void deleteAllDoneTasks();
+    @Query("DELETE FROM task_table WHERE done = 1 AND listNumber = :listNumber")
+    void deleteAllDoneTasks(int listNumber);
 
     //sortowanie według nazwy
 
-    @Query("SELECT * FROM task_table ORDER BY title ASC")
-    LiveData<List<Task>> getAllTasksByASCName();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY title ASC")
+    LiveData<List<Task>> getAllTasksByASCName(int isDone, int listNumber);
 
-    @Query("SELECT * FROM task_table ORDER BY title DESC")
-    LiveData<List<Task>> getAllTasksByDESCName();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY title DESC")
+    LiveData<List<Task>> getAllTasksByDESCName(int isDone, int listNumber);
 
-    @Query("SELECT * FROM task_table WHERE done = 0 ORDER BY title ASC")
-    LiveData<List<Task>> getAllNotDoneTasksByASCName();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber  ORDER BY title ASC")
+    LiveData<List<Task>> getAllNotDoneTasksByASCName(int isDone, int listNumber);
 
-    @Query("SELECT * FROM task_table WHERE done = 0 ORDER BY title DESC")
-    LiveData<List<Task>> getAllNotDoneTasksByDESCName();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber  ORDER BY title DESC")
+    LiveData<List<Task>> getAllNotDoneTasksByDESCName(int isDone, int listNumber);
 
     //sortowanie według priorytetu
 
-    @Query("SELECT * FROM task_table ORDER BY priority ASC")
-    LiveData<List<Task>> getAllTasksByASCPriority();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY priority ASC")
+    LiveData<List<Task>> getAllTasksByASCPriority(int isDone, int listNumber);
 
-    @Query("SELECT * FROM task_table ORDER BY priority DESC")
-    LiveData<List<Task>> getAllTasksByDESCPriority();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY priority DESC")
+    LiveData<List<Task>> getAllTasksByDESCPriority(int isDone, int listNumber);
 
-    @Query("SELECT * FROM task_table WHERE done = 0 ORDER BY priority ASC")
-    LiveData<List<Task>> getAllNotDoneTasksByASCPriority();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY priority ASC")
+    LiveData<List<Task>> getAllNotDoneTasksByASCPriority(int isDone, int listNumber);
 
-    @Query("SELECT * FROM task_table WHERE done = 0 ORDER BY priority DESC")
-    LiveData<List<Task>> getAllNotDoneTasksByDESCPriority();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY priority DESC")
+    LiveData<List<Task>> getAllNotDoneTasksByDESCPriority(int isDone, int listNumber);
 
     //sortowanie według daty
 
-    @Query("SELECT * FROM task_table ORDER BY date ASC")
-    LiveData<List<Task>> getAllTasksByASCDate();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY date ASC")
+    LiveData<List<Task>> getAllTasksByASCDate(int isDone, int listNumber);
 
-    @Query("SELECT * FROM task_table ORDER BY date DESC")
-    LiveData<List<Task>> getAllTasksByDESCDate();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY date DESC")
+    LiveData<List<Task>> getAllTasksByDESCDate(int isDone, int listNumber);
 
-    @Query("SELECT * FROM task_table WHERE done = 0 ORDER BY date ASC")
-    LiveData<List<Task>> getAllNotDoneTasksByASCDate();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY date ASC")
+    LiveData<List<Task>> getAllNotDoneTasksByASCDate(int isDone, int listNumber);
 
-    @Query("SELECT * FROM task_table WHERE done = 0 ORDER BY date DESC")
-    LiveData<List<Task>> getAllNotDoneTasksByDESCDate();
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY date DESC")
+    LiveData<List<Task>> getAllNotDoneTasksByDESCDate(int isDone, int listNumber);
 
 }

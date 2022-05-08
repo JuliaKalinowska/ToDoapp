@@ -65,8 +65,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
         }
     }
 
-    private void saveTask()
-    {
+    private void saveTask() {
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
         int priority = numberPickerPriority.getValue();
@@ -76,8 +75,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
         String day = String.valueOf(datePickerDate.getDayOfMonth());
         String date = year + "-" + month + "-" + day;
 
-        if (title.trim().isEmpty())
-        {
+        if (title.trim().isEmpty()) {
             Toast.makeText(this, "Proszę wprowadzić tytuł zadania", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -89,9 +87,8 @@ public class AddEditTaskActivity extends AppCompatActivity {
         data.putExtra(EXTRA_DONE, done);
         data.putExtra(EXTRA_DATE, date);
 
-        int id = getIntent().getIntExtra(EXTRA_ID,-1);
-        if(id != -1 )
-        {
+        int id = getIntent().getIntExtra(EXTRA_ID, -1);
+        if (id != -1) {
             data.putExtra(EXTRA_ID, id);
         }
 
@@ -109,8 +106,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.save_task:
                 saveTask();
                 return true;

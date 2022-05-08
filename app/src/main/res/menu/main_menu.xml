@@ -11,6 +11,38 @@
         app:showAsAction="always|collapseActionView" />
 
     <item
+        android:icon="@drawable/ic_arrow_drop_down"
+        android:title="ListNumber"
+        app:showAsAction="always">
+
+
+        <menu>
+
+            <item
+                android:id="@+id/list1"
+                android:title="Lista 1" />
+
+            <item
+                android:id="@+id/list2"
+                android:title="Lista 2" />
+
+            <item
+                android:id="@+id/list3"
+                android:title="Lista 3"/>
+
+            <item
+                android:id="@+id/list4"
+                android:title="Lista 4"/>
+
+            <item
+                android:id="@+id/list5"
+                android:title="Lista 5"/>
+
+        </menu>
+
+    </item>
+
+    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_share"
         android:title="Share"
@@ -34,12 +66,11 @@
 
             <item
                 android:id="@+id/sort_by_priority"
-                android:title="Sortuj wg priorytetu"/>
+                android:title="Sortuj wg priorytetu" />
 
         </menu>
 
     </item>
-
 
 
     <item

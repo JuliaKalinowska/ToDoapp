@@ -12,22 +12,25 @@ public class Task {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String title;
+    private final String title;
 
-    private String description;
+    private final String description;
 
-    private int priority;
+    private final int priority;
 
-    private int done;
+    private final int done;
 
-    private String date;
+    private final String date;
 
-    public Task(String title, String description, int priority, int done, String date) {
+    private final int listNumber;
+
+    public Task(String title, String description, int priority, int done, String date, int listNumber) {
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.done = done;
         this.date = date;
+        this.listNumber = listNumber;
     }
 
     public void setId(int id) {
@@ -56,5 +59,9 @@ public class Task {
 
     public String getDate() {
         return date;
+    }
+
+    public int getListNumber() {
+        return listNumber;
     }
 }

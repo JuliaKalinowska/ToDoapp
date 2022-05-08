@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TaskViewModel extends AndroidViewModel {
 
-    private TaskRepository repository;
+    private final TaskRepository repository;
     private LiveData<List<Task>> allTasks;
 
     private LiveData<List<Task>> allTasksByDESCName;
@@ -31,7 +31,7 @@ public class TaskViewModel extends AndroidViewModel {
     public TaskViewModel(@NonNull Application application) {
         super(application);
         repository = new TaskRepository(application);
-        allTasks = repository.getAllTasks();
+        /*allTasks = repository.getAllTasks();
 
         allTasksByDESCName = repository.getAllTasksByDESCName();
         allTasksByASCName = repository.getAllTasksByASCName();
@@ -45,57 +45,78 @@ public class TaskViewModel extends AndroidViewModel {
         allNotDoneTasksByDESCPriority = repository.getAllNotDoneTasksByDESCPriority();
         allNotDoneTasksByASCPriority = repository.getAllNotDoneTasksByASCPriority();
         allNotDoneTasksByDESCDate = repository.getAllNotDoneTasksByASCDate();
-        allNotDoneTasksByASCDate = repository.getAllNotDoneTasksByDESCDate();
+        allNotDoneTasksByASCDate = repository.getAllNotDoneTasksByDESCDate();*/
     }
 
-    public void insert(Task task)
-    {
+    public void insert(Task task) {
         repository.insert(task);
     }
 
-    public void update(Task task)
-    {
+    public void update(Task task) {
         repository.update(task);
     }
 
-    public void delete(Task task)
-    {
+    public void delete(Task task) {
         repository.delete(task);
     }
 
-    public void deleteAllTasks ()
-    {
-        repository.deleteAllTasks();
+    public void deleteAllTasks(int listNumber) {
+        repository.deleteAllTasks(listNumber);
     }
 
-    public void deleteAllDoneTasks() { repository.deleteAllDoneTasks(); }
-
-    public LiveData<List<Task>> getAllTasks()
-    {
-        return allTasks;
+    public void deleteAllDoneTasks(int listNumber) {
+        repository.deleteAllDoneTasks(listNumber);
     }
 
-    public LiveData<List<Task>> getAllTasksByDESCName() {return allTasksByDESCName;}
+    public LiveData<List<Task>> getAllTasks(int isDone, int listNumber) {
+        return repository.getAllTasks(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllTasksByASCName() {return allTasksByASCName;}
+    public LiveData<List<Task>> getAllTasksByDESCName(int isDone, int listNumber) {
+        return repository.getAllTasksByDESCName(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllTasksByDESCPriority() {return allTasksByDESCPriority;}
+    public LiveData<List<Task>> getAllTasksByASCName(int isDone, int listNumber) {
+        return repository.getAllTasksByASCName(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllTasksByASCPriority() {return allTasksByASCPriority;}
+    public LiveData<List<Task>> getAllTasksByDESCPriority(int isDone, int listNumber) {
+        return repository.getAllTasksByDESCPriority(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllTasksByDESCDate() {return allTasksByDESCDate;}
+    public LiveData<List<Task>> getAllTasksByASCPriority(int isDone, int listNumber) {
+        return repository.getAllTasksByASCPriority(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllTasksByASCDate() {return allTasksByASCDate;}
+    public LiveData<List<Task>> getAllTasksByDESCDate(int isDone, int listNumber) {
+        return repository.getAllTasksByDESCDate(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllNotDoneTasksByDESCName() {return allNotDoneTasksByDESCName;}
+    public LiveData<List<Task>> getAllTasksByASCDate(int isDone, int listNumber) {
+        return repository.getAllTasksByASCDate(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllNotDoneTasksByASCName() {return allNotDoneTasksByASCName;}
+    public LiveData<List<Task>> getAllNotDoneTasksByDESCName(int isDone, int listNumber) {
+        return repository.getAllNotDoneTasksByDESCName(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllNotDoneTasksByDESCPriority() {return allNotDoneTasksByDESCPriority;}
+    public LiveData<List<Task>> getAllNotDoneTasksByASCName(int isDone, int listNumber) {
+        return repository.getAllNotDoneTasksByASCName(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllNotDoneTasksByASCPriority() {return allNotDoneTasksByASCPriority;}
+    public LiveData<List<Task>> getAllNotDoneTasksByDESCPriority(int isDone, int listNumber) {
+        return repository.getAllNotDoneTasksByDESCPriority(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllNotDoneTasksByDESCDate() {return allNotDoneTasksByDESCDate;}
+    public LiveData<List<Task>> getAllNotDoneTasksByASCPriority(int isDone, int listNumber) {
+        return repository.getAllNotDoneTasksByASCPriority(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllNotDoneTasksByASCDate() {return allNotDoneTasksByASCDate;}
+    public LiveData<List<Task>> getAllNotDoneTasksByDESCDate(int isDone, int listNumber) {
+        return repository.getAllNotDoneTasksByDESCDate(isDone, listNumber);
+    }
+
+    public LiveData<List<Task>> getAllNotDoneTasksByASCDate(int isDone, int listNumber) {
+        return repository.getAllNotDoneTasksByASCDate(isDone, listNumber);
+    }
 }

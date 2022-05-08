@@ -43,15 +43,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         return tasks.size();
     }
 
-    public void setTasks(List<Task> tasks)
-    {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
         notifyDataSetChanged();
         this.tasksFullList = new ArrayList<>(tasks); //
     }
 
-    public Task getTaskAt(int position)
-    {
+    public Task getTaskAt(int position) {
         return tasks.get(position);
     }
 
@@ -66,13 +64,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
 
             List<Task> filteredList = new ArrayList<>();
 
-            if (charSequence.toString().isEmpty())
-            {
+            if (charSequence.toString().isEmpty()) {
                 filteredList.addAll(tasksFullList);
             } else {
-                for (Task task: tasksFullList)
-                {
-                    if (task.getTitle().contains(charSequence.toString())){
+                for (Task task : tasksFullList) {
+                    if (task.getTitle().contains(charSequence.toString())) {
                         filteredList.add(task);
                     }
                 }
@@ -94,12 +90,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         }
     };
 
-    class TaskHolder extends RecyclerView.ViewHolder
-    {
-        private TextView textViewTitle;
-        private TextView textViewDescription;
-        private TextView textViewPriority;
-        private TextView textViewDate;
+    class TaskHolder extends RecyclerView.ViewHolder {
+        private final TextView textViewTitle;
+        private final TextView textViewDescription;
+        private final TextView textViewPriority;
+        private final TextView textViewDate;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -121,14 +116,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         }
     }
 
-    public interface OnItemClickListener
-    {
+    public interface OnItemClickListener {
         void onItemClick(Task task);
 
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener)
-    {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 

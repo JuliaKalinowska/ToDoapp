@@ -10,7 +10,7 @@ import java.util.List;
 
 public class TaskRepository {
 
-    private TaskDao taskDao;
+    private final TaskDao taskDao;
     private LiveData<List<Task>> allTasks;
 
     private LiveData<List<Task>> allTasksByDESCName;
@@ -27,11 +27,10 @@ public class TaskRepository {
     private LiveData<List<Task>> allNotDoneTasksByDESCDate;
     private LiveData<List<Task>> allNotDoneTasksByASCDate;
 
-    public TaskRepository(Application application)
-    {
+    public TaskRepository(Application application) {
         TaskDatabase database = TaskDatabase.getInstance(application);
         taskDao = database.taskDao();
-        allTasks = taskDao.getAllTasks();
+        /*allTasks = taskDao.getAllTasks();
 
         allTasksByDESCName = taskDao.getAllTasksByDESCName();
         allTasksByASCName = taskDao.getAllTasksByASCName();
@@ -45,59 +44,86 @@ public class TaskRepository {
         allNotDoneTasksByDESCPriority = taskDao.getAllNotDoneTasksByDESCPriority();
         allNotDoneTasksByASCPriority = taskDao.getAllNotDoneTasksByASCPriority();
         allNotDoneTasksByDESCDate = taskDao.getAllNotDoneTasksByASCDate();
-        allNotDoneTasksByASCDate = taskDao.getAllNotDoneTasksByDESCDate();
+        allNotDoneTasksByASCDate = taskDao.getAllNotDoneTasksByDESCDate();*/
     }
 
-    public void insert(Task task)
-    {
+    public void insert(Task task) {
         new InsertTaskAsyncTask(taskDao).execute(task);
     }
 
-    public void update(Task task)
-    {
+    public void update(Task task) {
         new UpdateTaskAsyncTask(taskDao).execute(task);
     }
 
-    public void delete(Task task)
-    {
+    public void delete(Task task) {
         new DeleteTaskAsyncTask(taskDao).execute(task);
     }
 
-    public void deleteAllTasks()
-    {
-        new DeleteAllTasksAsyncTask(taskDao).execute();
+    public void deleteAllTasks(int listNumber) {
+        new DeleteAllTasksAsyncTask(taskDao, listNumber).execute();
     }
 
-    public void deleteAllDoneTasks()
-    {
-        new DeleteAllDoneTasksAsyncTask(taskDao).execute();
+    public void deleteAllDoneTasks(int listNumber) {
+        new DeleteAllDoneTasksAsyncTask(taskDao, listNumber).execute();
     }
 
-    public LiveData<List<Task>> getAllTasks(){
-        return allTasks;
+    public LiveData<List<Task>> getAllTasks(int isDone, int listNumber) {
+        return taskDao.getAllTasks(isDone, listNumber);
     }
 
     //sort
-    public LiveData<List<Task>> getAllTasksByDESCName() {return allTasksByDESCName;}
-    public LiveData<List<Task>> getAllTasksByASCName() {return allTasksByASCName;}
-    public LiveData<List<Task>> getAllTasksByDESCPriority() {return allTasksByDESCPriority;}
-    public LiveData<List<Task>> getAllTasksByASCPriority() {return allTasksByASCPriority;}
-    public LiveData<List<Task>> getAllTasksByDESCDate() {return allTasksByDESCDate;}
-    public LiveData<List<Task>> getAllTasksByASCDate() {return allTasksByASCDate;}
+    public LiveData<List<Task>> getAllTasksByDESCName(int isDone, int listNumber) {
+        return taskDao.getAllTasksByDESCName(isDone, listNumber);
+    }
 
-    public LiveData<List<Task>> getAllNotDoneTasksByDESCName() {return allNotDoneTasksByDESCName;}
-    public LiveData<List<Task>> getAllNotDoneTasksByASCName() {return allNotDoneTasksByASCName;}
-    public LiveData<List<Task>> getAllNotDoneTasksByDESCPriority() {return allNotDoneTasksByDESCPriority;}
-    public LiveData<List<Task>> getAllNotDoneTasksByASCPriority() {return allNotDoneTasksByASCPriority;}
-    public LiveData<List<Task>> getAllNotDoneTasksByDESCDate() {return allNotDoneTasksByDESCDate;}
-    public LiveData<List<Task>> getAllNotDoneTasksByASCDate() {return allNotDoneTasksByASCDate;}
+    public LiveData<List<Task>> getAllTasksByASCName(int isDone, int listNumber) {
+        return taskDao.getAllTasksByASCName(isDone, listNumber);
+    }
 
-    private static class InsertTaskAsyncTask extends AsyncTask<Task, Void, Void>
-    {
-        private TaskDao taskDao;
+    public LiveData<List<Task>> getAllTasksByDESCPriority(int isDone, int listNumber) {
+        return taskDao.getAllTasksByDESCPriority(isDone, listNumber);
+    }
 
-        private InsertTaskAsyncTask(TaskDao taskDao)
-        {
+    public LiveData<List<Task>> getAllTasksByASCPriority(int isDone, int listNumber) {
+        return taskDao.getAllTasksByASCPriority(isDone, listNumber);
+    }
+
+    public LiveData<List<Task>> getAllTasksByDESCDate(int isDone, int listNumber) {
+        return taskDao.getAllTasksByDESCDate(isDone, listNumber);
+    }
+
+    public LiveData<List<Task>> getAllTasksByASCDate(int isDone, int listNumber) {
+        return taskDao.getAllTasksByASCDate(isDone, listNumber);
+    }
+
+    public LiveData<List<Task>> getAllNotDoneTasksByDESCName(int isDone, int listNumber) {
+        return taskDao.getAllNotDoneTasksByDESCName(isDone, listNumber);
+    }
+
+    public LiveData<List<Task>> getAllNotDoneTasksByASCName(int isDone, int listNumber) {
+        return taskDao.getAllNotDoneTasksByASCName(isDone, listNumber);
+    }
+
+    public LiveData<List<Task>> getAllNotDoneTasksByDESCPriority(int isDone, int listNumber) {
+        return taskDao.getAllNotDoneTasksByDESCPriority(isDone, listNumber);
+    }
+
+    public LiveData<List<Task>> getAllNotDoneTasksByASCPriority(int isDone, int listNumber) {
+        return taskDao.getAllNotDoneTasksByASCPriority(isDone, listNumber);
+    }
+
+    public LiveData<List<Task>> getAllNotDoneTasksByDESCDate(int isDone, int listNumber) {
+        return taskDao.getAllNotDoneTasksByDESCDate(isDone, listNumber);
+    }
+
+    public LiveData<List<Task>> getAllNotDoneTasksByASCDate(int isDone, int listNumber) {
+        return taskDao.getAllNotDoneTasksByASCDate(isDone, listNumber);
+    }
+
+    private static class InsertTaskAsyncTask extends AsyncTask<Task, Void, Void> {
+        private final TaskDao taskDao;
+
+        private InsertTaskAsyncTask(TaskDao taskDao) {
             this.taskDao = taskDao;
         }
 
@@ -108,12 +134,10 @@ public class TaskRepository {
         }
     }
 
-    private static class UpdateTaskAsyncTask extends AsyncTask<Task, Void, Void>
-    {
-        private TaskDao taskDao;
+    private static class UpdateTaskAsyncTask extends AsyncTask<Task, Void, Void> {
+        private final TaskDao taskDao;
 
-        private UpdateTaskAsyncTask(TaskDao taskDao)
-        {
+        private UpdateTaskAsyncTask(TaskDao taskDao) {
             this.taskDao = taskDao;
         }
 
@@ -124,12 +148,10 @@ public class TaskRepository {
         }
     }
 
-    private static class DeleteTaskAsyncTask extends AsyncTask<Task, Void, Void>
-    {
-        private TaskDao taskDao;
+    private static class DeleteTaskAsyncTask extends AsyncTask<Task, Void, Void> {
+        private final TaskDao taskDao;
 
-        private DeleteTaskAsyncTask(TaskDao taskDao)
-        {
+        private DeleteTaskAsyncTask(TaskDao taskDao) {
             this.taskDao = taskDao;
         }
 
@@ -140,34 +162,34 @@ public class TaskRepository {
         }
     }
 
-    private static class DeleteAllTasksAsyncTask extends AsyncTask<Void, Void, Void>
-    {
-        private TaskDao taskDao;
+    private static class DeleteAllTasksAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final TaskDao taskDao;
+        private final int listNumber;
 
-        private DeleteAllTasksAsyncTask(TaskDao taskDao)
-        {
+        private DeleteAllTasksAsyncTask(TaskDao taskDao, int listNumber) {
             this.taskDao = taskDao;
+            this.listNumber = listNumber;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            taskDao.deleteAllTasks();
+            taskDao.deleteAllTasks(listNumber);
             return null;
         }
     }
 
-    private static class DeleteAllDoneTasksAsyncTask extends AsyncTask<Void, Void, Void>
-    {
-        private TaskDao taskDao;
+    private static class DeleteAllDoneTasksAsyncTask extends AsyncTask<Void, Void, Void> {
+        private final TaskDao taskDao;
+        private final int listNumber;
 
-        private DeleteAllDoneTasksAsyncTask(TaskDao taskDao)
-        {
+        private DeleteAllDoneTasksAsyncTask(TaskDao taskDao, int listNumber) {
             this.taskDao = taskDao;
+            this.listNumber = listNumber;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            taskDao.deleteAllDoneTasks();
+            taskDao.deleteAllDoneTasks(listNumber);
             return null;
         }
     }
