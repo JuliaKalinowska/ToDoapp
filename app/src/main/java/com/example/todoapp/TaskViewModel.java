@@ -12,7 +12,7 @@ public class TaskViewModel extends AndroidViewModel {
 
     private final TaskRepository repository;
     private LiveData<List<Task>> allTasks;
-
+    //
     private LiveData<List<Task>> allTasksByDESCName;
     private LiveData<List<Task>> allTasksByASCName;
     private LiveData<List<Task>> allTasksByDESCPriority;
