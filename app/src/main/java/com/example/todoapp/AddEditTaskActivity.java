@@ -40,11 +40,13 @@ public class AddEditTaskActivity extends AppCompatActivity {
     private NumberPicker numberPickerPriority;
     private DatePicker datePickerDate;
     private CheckBox checkboxDate;
+    private CheckBox checkboxDone;
     private String year;
     private String month;
     private String day;
     private String[] result;
     private String date;
+    private int done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
         numberPickerPriority = findViewById(R.id.number_picker_priority);
         datePickerDate = findViewById(R.id.date_picker_date);
         checkboxDate = findViewById(R.id.check_box_date);
+        checkboxDone = findViewById(R.id.check_box_done);
 
         numberPickerPriority.setMinValue(1);
         numberPickerPriority.setMaxValue(3);
@@ -69,6 +72,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
             editTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             editTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
             numberPickerPriority.setValue(intent.getIntExtra(EXTRA_PRIORITY, 1));
+            checkboxDone.setChecked(intent.getIntExtra(EXTRA_DONE, 0) != 0);
             if (!intent.getStringExtra(EXTRA_DATE).isEmpty()) {
                 result = intent.getStringExtra(EXTRA_DATE).split("-");
                 datePickerDate.init(Integer.parseInt(result[0]), Integer.parseInt(result[1]), Integer.parseInt(result[2]), null);
@@ -85,17 +89,23 @@ public class AddEditTaskActivity extends AppCompatActivity {
         String title = editTextTitle.getText().toString();
         String description = editTextDescription.getText().toString();
         int priority = numberPickerPriority.getValue();
-        int done = 1;
         year = String.valueOf(datePickerDate.getYear());
         month = String.valueOf(datePickerDate.getMonth());
         day = String.valueOf(datePickerDate.getDayOfMonth());
 
         checkboxDate = findViewById(R.id.check_box_date);
+        checkboxDone = findViewById(R.id.check_box_done);
 
         if (checkboxDate.isChecked()) {
             date = year + "-" + month + "-" + day;
         } else {
             date = "";
+        }
+
+        if (checkboxDone.isChecked()) {
+            done = 1;
+        } else {
+            done = 0;
         }
 
         if (title.trim().isEmpty()) {
