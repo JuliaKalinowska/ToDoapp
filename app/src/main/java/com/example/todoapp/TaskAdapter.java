@@ -3,6 +3,7 @@ package com.example.todoapp;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         holder.textViewDescription.setText(currentTask.getDescription());
         holder.textViewPriority.setText(String.valueOf(currentTask.getPriority()));
         holder.textViewDate.setText(currentTask.getDate());
-
+        holder.checkboxDone.setChecked(currentTask.getDone()!= 0);
     }
 
     @Override
@@ -95,6 +96,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         private final TextView textViewDescription;
         private final TextView textViewPriority;
         private final TextView textViewDate;
+        private final CheckBox checkboxDone;
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
@@ -103,6 +105,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
             textViewDescription = itemView.findViewById(R.id.text_view_description);
             textViewPriority = itemView.findViewById(R.id.text_view_priority);
             textViewDate = itemView.findViewById(R.id.text_view_date);
+            checkboxDone = itemView.findViewById(R.id.check_box_done_task);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
