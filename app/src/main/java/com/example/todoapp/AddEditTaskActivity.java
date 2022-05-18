@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -37,6 +39,12 @@ public class AddEditTaskActivity extends AppCompatActivity {
     private EditText editTextDescription;
     private NumberPicker numberPickerPriority;
     private DatePicker datePickerDate;
+    private CheckBox checkboxDate;
+    private String year;
+    private String month;
+    private String day;
+    private String[] result;
+    private String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +55,7 @@ public class AddEditTaskActivity extends AppCompatActivity {
         editTextDescription = findViewById(R.id.edit_text_description);
         numberPickerPriority = findViewById(R.id.number_picker_priority);
         datePickerDate = findViewById(R.id.date_picker_date);
+        checkboxDate = findViewById(R.id.check_box_date);
 
         numberPickerPriority.setMinValue(1);
         numberPickerPriority.setMaxValue(3);
@@ -60,6 +69,13 @@ public class AddEditTaskActivity extends AppCompatActivity {
             editTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
             editTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
             numberPickerPriority.setValue(intent.getIntExtra(EXTRA_PRIORITY, 1));
+            if (!intent.getStringExtra(EXTRA_DATE).isEmpty()) {
+                result = intent.getStringExtra(EXTRA_DATE).split("-");
+                datePickerDate.init(Integer.parseInt(result[0]), Integer.parseInt(result[1]), Integer.parseInt(result[2]), null);
+            } else {
+                checkboxDate.setChecked(false);
+                datePickerDate.setEnabled(false);
+            }
         } else {
             setTitle("Dodaj zadanie");
         }
@@ -70,10 +86,17 @@ public class AddEditTaskActivity extends AppCompatActivity {
         String description = editTextDescription.getText().toString();
         int priority = numberPickerPriority.getValue();
         int done = 1;
-        String year = String.valueOf(datePickerDate.getYear());
-        String month = String.valueOf(datePickerDate.getMonth());
-        String day = String.valueOf(datePickerDate.getDayOfMonth());
-        String date = year + "-" + month + "-" + day;
+        year = String.valueOf(datePickerDate.getYear());
+        month = String.valueOf(datePickerDate.getMonth());
+        day = String.valueOf(datePickerDate.getDayOfMonth());
+
+        checkboxDate = findViewById(R.id.check_box_date);
+
+        if (checkboxDate.isChecked()) {
+            date = year + "-" + month + "-" + day;
+        } else {
+            date = "";
+        }
 
         if (title.trim().isEmpty()) {
             Toast.makeText(this, "Proszę wprowadzić tytuł zadania", Toast.LENGTH_SHORT).show();
@@ -114,4 +137,23 @@ public class AddEditTaskActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        // Check which checkbox was clicked
+        switch (view.getId()) {
+            case R.id.check_box_date:
+                if (checked) {
+                    datePickerDate = findViewById(R.id.date_picker_date);
+                    datePickerDate.setEnabled(true);
+                } else {
+                    datePickerDate.setEnabled(false);
+                }
+                break;
+            // TODO: Veggie sandwich
+        }
+    }
+
 }
