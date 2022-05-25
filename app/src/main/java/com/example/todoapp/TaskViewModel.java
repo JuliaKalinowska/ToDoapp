@@ -119,4 +119,8 @@ public class TaskViewModel extends AndroidViewModel {
     public LiveData<List<Task>> getAllNotDoneTasksByASCDate(int isDone, int listNumber) {
         return repository.getAllNotDoneTasksByASCDate(isDone, listNumber);
     }
+
+    public List<Task> getAllTasksToList(int isDone, int listNumber) {
+        return repository.getAllTasksToList(isDone, listNumber);
+    }
 }

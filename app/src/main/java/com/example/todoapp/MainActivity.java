@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private TaskViewModel taskViewModel;
     RecyclerView recyclerView;
     final TaskAdapter adapter = new TaskAdapter();
+    private List<Task> allTasksList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
+                //allTasksList = taskViewModel.getAllTasksToList(showDone, currentList);
                 //taskViewModel.getAllTasks();
                 intent.putExtra(Intent.EXTRA_TEXT, "Udostępniono zadania: " + taskViewModel.getAllTasks(showDone, currentList));
                 startActivity(Intent.createChooser(intent, "Udostępnij"));

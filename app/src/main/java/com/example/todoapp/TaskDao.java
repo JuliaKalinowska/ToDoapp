@@ -76,4 +76,7 @@ public interface TaskDao {
     @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY date DESC")
     LiveData<List<Task>> getAllNotDoneTasksByDESCDate(int isDone, int listNumber);
 
+    // udostępnianie
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY title DESC")
+    List<Task> getAllTasksToList(int isDone, int listNumber);
 }

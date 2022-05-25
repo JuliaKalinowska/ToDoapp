@@ -120,6 +120,10 @@ public class TaskRepository {
         return taskDao.getAllNotDoneTasksByASCDate(isDone, listNumber);
     }
 
+    public List<Task> getAllTasksToList(int isDone, int listNumber) {
+        return taskDao.getAllTasksToList(isDone, listNumber);
+    }
+
     private static class InsertTaskAsyncTask extends AsyncTask<Task, Void, Void> {
         private final TaskDao taskDao;
 
