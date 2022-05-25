@@ -1,12 +1,12 @@
 package com.example.todoapp;
 
 import android.app.Application;
-import android.hardware.camera2.params.LensShadingMap;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class TaskRepository {
 
@@ -123,6 +123,25 @@ public class TaskRepository {
     public List<Task> getAllTasksToList(int isDone, int listNumber) {
         return taskDao.getAllTasksToList(isDone, listNumber);
     }
+
+    public LiveData<List<Task>> getData(int isDone, int listNumber, String column) {
+        return taskDao.getData(isDone, listNumber, column);
+    }
+    /*
+    public MediatorLiveData<List<Task>> getData2(int isDone, int listNumber, String column) {
+        return taskDao.getData2(isDone, listNumber, column);
+    }
+
+    public MutableLiveData<List<Task>> getData3(int isDone, int listNumber, String column) {
+        return taskDao.getData3(isDone, listNumber, column);
+    }
+    */
+
+    public List<String> getList(int isDone, int listNumber)  {
+        return taskDao.getList(isDone, listNumber);
+    }
+
+
 
     private static class InsertTaskAsyncTask extends AsyncTask<Task, Void, Void> {
         private final TaskDao taskDao;

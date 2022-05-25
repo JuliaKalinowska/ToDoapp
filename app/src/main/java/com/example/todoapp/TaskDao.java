@@ -2,6 +2,8 @@ package com.example.todoapp;
 
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -79,4 +81,16 @@ public interface TaskDao {
     // udostępnianie
     @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY title DESC")
     List<Task> getAllTasksToList(int isDone, int listNumber);
+
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY :column ASC")
+    LiveData<List<Task>> getData(int isDone, int listNumber, String column);
+
+    /*@Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY :column DESC")
+    MediatorLiveData<List<Task>> getData2(int isDone, int listNumber, String column);
+
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY :column DESC")
+    MutableLiveData<List<Task>> getData3(int isDone, int listNumber, String column);*/
+
+    @Query("SELECT title FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY title ASC")
+    List<String> getList(int isDone, int listNumber);
 }

@@ -17,12 +17,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean checked = false;
     private int showDone = 1;
     private int currentList = 1;
+    private String column = "title";
     private TaskViewModel taskViewModel;
     RecyclerView recyclerView;
     final TaskAdapter adapter = new TaskAdapter();
@@ -60,12 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
 
-        taskViewModel.getAllTasks(showDone, currentList).observe(this, new Observer<List<Task>>() {
+        taskViewModel.getData().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
                 //update RecyclerView
                 adapter.setTasks(tasks);
-
             }
         });
 
@@ -184,12 +187,26 @@ public class MainActivity extends AppCompatActivity {
             case R.id.share:
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                //allTasksList = taskViewModel.getAllTasksToList(showDone, currentList);
-                //taskViewModel.getAllTasks();
-                intent.putExtra(Intent.EXTRA_TEXT, "Udostępniono zadania: " + taskViewModel.getAllTasks(showDone, currentList));
-                startActivity(Intent.createChooser(intent, "Udostępnij"));
-                return true;
 
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<String> tasksList = taskViewModel.getList(showDone, currentList);
+                        String output = "";
+                        for (int i = 0; i < tasksList.size(); i++) {
+                            output = output + tasksList.get(i) + "\n";
+                        }
+                        intent.putExtra(Intent.EXTRA_TEXT, output);
+                        startActivity(Intent.createChooser(intent, "Udostępnij"));
+                    }
+                }).start();
+
+                //taskViewModel.getAllTasks();
+                 return true;
+
+
+                /*
             case R.id.sort_by_name:
                 taskViewModel.getAllTasksByASCName(showDone, currentList).observe(this, new Observer<List<Task>>() {
                     @Override
@@ -305,6 +322,68 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+                Toast.makeText(this, "Lista 5", Toast.LENGTH_SHORT).show();
+                return true;
+                                */
+
+            case R.id.sort_by_name:
+                column = "title";
+                taskViewModel.updateData(showDone, currentList, column);
+                Toast.makeText(this, "Posortowano według nazwy rosnąco", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.sort_by_priority:
+                column = "priority";
+                taskViewModel.updateData(showDone, currentList, column);
+                Toast.makeText(this, "Posortowano według priorytetu rosnąco", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.sort_by_date:
+                column = "date";
+                taskViewModel.updateData(showDone, currentList, column);
+                Toast.makeText(this, "Posortowano według daty rosnąco", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.hide_completed_task:
+                if (showDone == 1) {
+                    showDone = 0;
+                } else {
+                    showDone = 1;
+                }
+                checked = (showDone == 0);
+
+                item.setChecked(checked);
+                taskViewModel.updateData(showDone, currentList, column);
+                Toast.makeText(this, "Posortowano według nazwy rosnąco", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.list1:
+                currentList = 1;
+                taskViewModel.updateData(showDone, currentList, column);
+                Toast.makeText(this, "Lista 1", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.list2:
+                currentList = 2;
+                taskViewModel.updateData(showDone, currentList, column);
+                Toast.makeText(this, "Lista 2", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.list3:
+                currentList = 3;
+                taskViewModel.updateData(showDone, currentList, column);
+                Toast.makeText(this, "Lista 3", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.list4:
+                currentList = 4;
+                taskViewModel.updateData(showDone, currentList, column);
+                Toast.makeText(this, "Lista 4", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.list5:
+                currentList = 5;
+                taskViewModel.updateData(showDone, currentList, column);
                 Toast.makeText(this, "Lista 5", Toast.LENGTH_SHORT).show();
                 return true;
 
