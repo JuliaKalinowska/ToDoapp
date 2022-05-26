@@ -58,8 +58,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-
-        //final TaskAdapter adapter = new TaskAdapter();
         recyclerView.setAdapter(adapter);
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
@@ -67,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         taskViewModel.getData().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
-                //update RecyclerView
                 adapter.setTasks(tasks);
             }
         });
@@ -144,12 +141,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
-
-        //MenuItem hide = menu.findItem(R.id.hide_completed_task);
-        //hide.setChecked(checked);
 
         MenuItem search = menu.findItem(R.id.search_bar);
         SearchView searchView = (SearchView) search.getActionView();
@@ -169,7 +162,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -188,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
 
-
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -201,130 +192,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(Intent.createChooser(intent, "Udostępnij"));
                     }
                 }).start();
-
-                //taskViewModel.getAllTasks();
-                 return true;
-
-
-                /*
-            case R.id.sort_by_name:
-                taskViewModel.getAllTasksByASCName(showDone, currentList).observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
-                Toast.makeText(this, "Posortowano według nazwy rosnąco", Toast.LENGTH_SHORT).show();
                 return true;
-
-            case R.id.sort_by_priority:
-                taskViewModel.getAllTasksByASCPriority(showDone, currentList).observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
-
-                Toast.makeText(this, "Posortowano według priorytetu rosnąco", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.sort_by_date:
-
-                taskViewModel.getAllTasksByASCDate(showDone, currentList).observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
-
-                Toast.makeText(this, "Posortowano według daty rosnąco", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.hide_completed_task:
-                if (showDone == 1) {
-                    showDone = 0;
-                } else {
-                    showDone = 1;
-                }
-                checked = (showDone == 0);
-                item.setChecked(checked);
-
-                taskViewModel.getAllTasksByASCName(showDone, currentList).observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
-
-
-                Toast.makeText(this, "Posortowano według nazwy rosnąco", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.list1:
-                currentList = 1;
-
-                taskViewModel.getAllTasksByASCName(showDone, currentList).observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
-
-                Toast.makeText(this, "Lista 1", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.list2:
-                currentList = 2;
-
-                taskViewModel.getAllTasksByASCName(showDone, currentList).observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
-
-                Toast.makeText(this, "Lista 2", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.list3:
-                currentList = 3;
-
-                taskViewModel.getAllTasksByASCName(showDone, currentList).observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
-
-                Toast.makeText(this, "Lista 3", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.list4:
-                currentList = 4;
-
-                taskViewModel.getAllTasksByASCName(showDone, currentList).observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
-
-                Toast.makeText(this, "Lista 4", Toast.LENGTH_SHORT).show();
-                return true;
-
-            case R.id.list5:
-                currentList = 5;
-
-                taskViewModel.getAllTasksByASCName(showDone, currentList).observe(this, new Observer<List<Task>>() {
-                    @Override
-                    public void onChanged(List<Task> tasks) {
-                        adapter.setTasks(tasks);
-                    }
-                });
-
-                Toast.makeText(this, "Lista 5", Toast.LENGTH_SHORT).show();
-                return true;
-                                */
 
             case R.id.sort_by_name:
                 column = "title";

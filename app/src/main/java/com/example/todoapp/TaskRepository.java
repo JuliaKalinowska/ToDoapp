@@ -11,40 +11,10 @@ import java.util.concurrent.ExecutionException;
 public class TaskRepository {
 
     private final TaskDao taskDao;
-    private LiveData<List<Task>> allTasks;
-
-    private LiveData<List<Task>> allTasksByDESCName;
-    private LiveData<List<Task>> allTasksByASCName;
-    private LiveData<List<Task>> allTasksByDESCPriority;
-    private LiveData<List<Task>> allTasksByASCPriority;
-    private LiveData<List<Task>> allTasksByDESCDate;
-    private LiveData<List<Task>> allTasksByASCDate;
-
-    private LiveData<List<Task>> allNotDoneTasksByDESCName;
-    private LiveData<List<Task>> allNotDoneTasksByASCName;
-    private LiveData<List<Task>> allNotDoneTasksByDESCPriority;
-    private LiveData<List<Task>> allNotDoneTasksByASCPriority;
-    private LiveData<List<Task>> allNotDoneTasksByDESCDate;
-    private LiveData<List<Task>> allNotDoneTasksByASCDate;
 
     public TaskRepository(Application application) {
         TaskDatabase database = TaskDatabase.getInstance(application);
         taskDao = database.taskDao();
-        /*allTasks = taskDao.getAllTasks();
-
-        allTasksByDESCName = taskDao.getAllTasksByDESCName();
-        allTasksByASCName = taskDao.getAllTasksByASCName();
-        allTasksByDESCPriority = taskDao.getAllTasksByDESCPriority();
-        allTasksByASCPriority = taskDao.getAllTasksByASCPriority();
-        allTasksByDESCDate = taskDao.getAllTasksByASCDate();
-        allTasksByASCDate = taskDao.getAllTasksByDESCDate();
-
-        allNotDoneTasksByDESCName = taskDao.getAllNotDoneTasksByDESCName();
-        allNotDoneTasksByASCName = taskDao.getAllNotDoneTasksByASCName();
-        allNotDoneTasksByDESCPriority = taskDao.getAllNotDoneTasksByDESCPriority();
-        allNotDoneTasksByASCPriority = taskDao.getAllNotDoneTasksByASCPriority();
-        allNotDoneTasksByDESCDate = taskDao.getAllNotDoneTasksByASCDate();
-        allNotDoneTasksByASCDate = taskDao.getAllNotDoneTasksByDESCDate();*/
     }
 
     public void insert(Task task) {
@@ -71,77 +41,21 @@ public class TaskRepository {
         return taskDao.getAllTasks(isDone, listNumber);
     }
 
-    //sort
-    public LiveData<List<Task>> getAllTasksByDESCName(int isDone, int listNumber) {
-        return taskDao.getAllTasksByDESCName(isDone, listNumber);
-    }
-
     public LiveData<List<Task>> getAllTasksByASCName(int isDone, int listNumber) {
         return taskDao.getAllTasksByASCName(isDone, listNumber);
-    }
-
-    public LiveData<List<Task>> getAllTasksByDESCPriority(int isDone, int listNumber) {
-        return taskDao.getAllTasksByDESCPriority(isDone, listNumber);
     }
 
     public LiveData<List<Task>> getAllTasksByASCPriority(int isDone, int listNumber) {
         return taskDao.getAllTasksByASCPriority(isDone, listNumber);
     }
 
-    public LiveData<List<Task>> getAllTasksByDESCDate(int isDone, int listNumber) {
-        return taskDao.getAllTasksByDESCDate(isDone, listNumber);
-    }
-
     public LiveData<List<Task>> getAllTasksByASCDate(int isDone, int listNumber) {
         return taskDao.getAllTasksByASCDate(isDone, listNumber);
     }
 
-    public LiveData<List<Task>> getAllNotDoneTasksByDESCName(int isDone, int listNumber) {
-        return taskDao.getAllNotDoneTasksByDESCName(isDone, listNumber);
-    }
-
-    public LiveData<List<Task>> getAllNotDoneTasksByASCName(int isDone, int listNumber) {
-        return taskDao.getAllNotDoneTasksByASCName(isDone, listNumber);
-    }
-
-    public LiveData<List<Task>> getAllNotDoneTasksByDESCPriority(int isDone, int listNumber) {
-        return taskDao.getAllNotDoneTasksByDESCPriority(isDone, listNumber);
-    }
-
-    public LiveData<List<Task>> getAllNotDoneTasksByASCPriority(int isDone, int listNumber) {
-        return taskDao.getAllNotDoneTasksByASCPriority(isDone, listNumber);
-    }
-
-    public LiveData<List<Task>> getAllNotDoneTasksByDESCDate(int isDone, int listNumber) {
-        return taskDao.getAllNotDoneTasksByDESCDate(isDone, listNumber);
-    }
-
-    public LiveData<List<Task>> getAllNotDoneTasksByASCDate(int isDone, int listNumber) {
-        return taskDao.getAllNotDoneTasksByASCDate(isDone, listNumber);
-    }
-
-    public List<Task> getAllTasksToList(int isDone, int listNumber) {
-        return taskDao.getAllTasksToList(isDone, listNumber);
-    }
-
-    public LiveData<List<Task>> getData(int isDone, int listNumber, String column) {
-        return taskDao.getData(isDone, listNumber, column);
-    }
-    /*
-    public MediatorLiveData<List<Task>> getData2(int isDone, int listNumber, String column) {
-        return taskDao.getData2(isDone, listNumber, column);
-    }
-
-    public MutableLiveData<List<Task>> getData3(int isDone, int listNumber, String column) {
-        return taskDao.getData3(isDone, listNumber, column);
-    }
-    */
-
     public List<String> getList(int isDone, int listNumber)  {
         return taskDao.getList(isDone, listNumber);
     }
-
-
 
     private static class InsertTaskAsyncTask extends AsyncTask<Task, Void, Void> {
         private final TaskDao taskDao;
