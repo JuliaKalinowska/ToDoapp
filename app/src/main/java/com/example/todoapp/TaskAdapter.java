@@ -36,7 +36,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> im
         holder.textViewDescription.setText(currentTask.getDescription());
         holder.textViewPriority.setText(String.valueOf(currentTask.getPriority()));
         holder.textViewDate.setText(currentTask.getDate());
-        holder.checkboxDone.setChecked(currentTask.getDone()!= 0);
+        holder.checkboxDone.setChecked(currentTask.getDone() != 0);
     }
 
     @Override

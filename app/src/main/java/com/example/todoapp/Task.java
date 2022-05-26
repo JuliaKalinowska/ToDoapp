@@ -1,10 +1,7 @@
 package com.example.todoapp;
 
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import java.util.Date;
 
 @Entity(tableName = "task_table")
 public class Task {

@@ -28,15 +28,15 @@
 
             <item
                 android:id="@+id/list3"
-                android:title="Lista 3"/>
+                android:title="Lista 3" />
 
             <item
                 android:id="@+id/list4"
-                android:title="Lista 4"/>
+                android:title="Lista 4" />
 
             <item
                 android:id="@+id/list5"
-                android:title="Lista 5"/>
+                android:title="Lista 5" />
 
         </menu>
 

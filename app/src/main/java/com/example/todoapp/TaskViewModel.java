@@ -5,11 +5,10 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.MediatorLiveData;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.Objects;
 
 public class TaskViewModel extends AndroidViewModel {
 
@@ -19,7 +18,6 @@ public class TaskViewModel extends AndroidViewModel {
     private int isDone = 1;
     private int listNumber = 1;
     private String column = "title";
-
 
     public TaskViewModel(@NonNull Application application) {
         super(application);
@@ -57,17 +55,15 @@ public class TaskViewModel extends AndroidViewModel {
     }
 
     public void updateData(int isDone, int listNumber, String column) {
-        if (column == "title") {
+        if (Objects.equals(column, "title")) {
             data.removeSource(sourceData);
             sourceData = repository.getAllTasksByASCName(isDone, listNumber);
             data.addSource(sourceData, value -> data.setValue(value));
-        }
-        else if (column == "date") {
+        } else if (Objects.equals(column, "date")) {
             data.removeSource(sourceData);
             sourceData = repository.getAllTasksByASCDate(isDone, listNumber);
             data.addSource(sourceData, value -> data.setValue(value));
-        }
-        else {
+        } else {
             data.removeSource(sourceData);
             sourceData = repository.getAllTasksByASCPriority(isDone, listNumber);
             data.addSource(sourceData, value -> data.setValue(value));

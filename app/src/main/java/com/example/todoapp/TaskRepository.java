@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class TaskRepository {
 
@@ -53,7 +52,7 @@ public class TaskRepository {
         return taskDao.getAllTasksByASCDate(isDone, listNumber);
     }
 
-    public List<String> getList(int isDone, int listNumber)  {
+    public List<String> getList(int isDone, int listNumber) {
         return taskDao.getList(isDone, listNumber);
     }
 
