@@ -48,4 +48,8 @@ public interface TaskDao {
     //udostępnianie
     @Query("SELECT title FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY title ASC")
     List<String> getList(int isDone, int listNumber);
+
+    //test
+    @Query("SELECT * FROM task_table WHERE (done = 0 OR done = :isDone) AND listNumber = :listNumber ORDER BY title ASC")
+    List<Task> getListForTest(int isDone, int listNumber);
 }

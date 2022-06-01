@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
                 item.setChecked(checked);
                 taskViewModel.updateData(showDone, currentList, column);
-                Toast.makeText(this, "Posortowano według nazwy rosnąco", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Ukryto ukończone zadania", Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.list1:
