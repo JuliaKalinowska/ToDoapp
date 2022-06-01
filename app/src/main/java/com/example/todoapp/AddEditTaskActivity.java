@@ -91,7 +91,13 @@ public class AddEditTaskActivity extends AppCompatActivity {
         int priority = numberPickerPriority.getValue();
         year = String.valueOf(datePickerDate.getYear());
         month = String.valueOf(datePickerDate.getMonth());
+        if (Integer.parseInt(month) < 10) {
+            month = "0" + month;
+        }
         day = String.valueOf(datePickerDate.getDayOfMonth());
+        if (Integer.parseInt(day) < 10) {
+            day = "0" + day;
+        }
 
         checkboxDate = findViewById(R.id.check_box_date);
         checkboxDone = findViewById(R.id.check_box_done);
